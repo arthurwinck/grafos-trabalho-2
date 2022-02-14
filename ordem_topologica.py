@@ -1,4 +1,4 @@
-from grafo import Grafo
+from grafo import Grafo, Vertice
 
 def ordenacao_topologica(grafo):
     qtdVertices = grafo.qtdVertices()
@@ -6,7 +6,7 @@ def ordenacao_topologica(grafo):
     ordem = []
     # tempo = 0
 
-    for i in grafo.getVertices():
+    for i in grafo.vertices:
         if (c[i] == False):
             dfs_visit_ot(grafo, i, c, ordem)
 
