@@ -41,6 +41,8 @@ class CompFortConexas:
         vizinhos = []
 
         # Descobrir os arcos que saem de k para outros vértices // Respeitar o fato do grafo ser dirigido
+        # Por conta de como implementamos o grafo, o atributo é chamado de aresta
+        # mas, podemos utilizá-la como arco facilmente interpretando ela se fosse um arco de K para J. Não aceitamos ela como J -> K
         for j in range(len(self.grafo.arestas)):
             if self.grafo.arestas[j].vertices[0] == k+1:
                 vizinhos.append(self.grafo.arestas[j].vertices[1])
@@ -111,8 +113,6 @@ class CompFortConexas:
         #Criar o grafo transposto
         arestasTransp = []
         
-        print(self.matrizDFS)
-
         for aresta in self.grafo.arestas:
             arestasTransp.append(Aresta([aresta.vertices[1], aresta.vertices[0]], aresta.peso))
 
@@ -131,6 +131,12 @@ class CompFortConexas:
         # Execução de DFS Alterado utilizando DFSVisitAlt e a matriz matrizDFSAlt
         self.DFSAlterado()
 
-        print(self.matrizDFSAlt)
+        #print(self.matrizDFSAlt)
 
-        
+        for i in range(len(self.matrizDFSAlt)):
+            print(f"Elemento: {self.matrizDFSAlt[i][4]} Antecessor: {self.matrizDFSAlt[i][3]}")
+
+        # Criação da representação das árvores
+
+                        
+
