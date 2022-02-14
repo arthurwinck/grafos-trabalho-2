@@ -38,7 +38,7 @@ class Grafo:
         if (verticeA, verticeB) in self.pair_to_aresta:
             return self.pair_to_aresta[(verticeA, verticeB)].peso
         else:
-            return "inf"
+            return float('inf')
     
     def ler(self, arquivo):
         #Carrega um grafo a partir de um input especificado
@@ -56,14 +56,19 @@ class Grafo:
                 lista_linha = linha.split(' ')
                 flag_vertices = True
 
-            elif '*edges' in linha:
+            elif '*edges' in linha or '*arcs' in linha:
                 lista_linha = linha.split(' ')
                 flag_vertices = False
                 flag_arestas = True
 
             elif flag_vertices:
                 lista_linha = linha.split(' ')
+
+                if lista_linha[1].endswith('\n'):
+                    lista_linha[1] = lista_linha[1][:-1]
+
                 indice, rotulo = lista_linha[0], lista_linha[1]
+
                 vertice = Vertice(indice, rotulo)
                 self.indice_to_vertice[int(indice)] = vertice
                 self.adicionarVertice(vertice)
