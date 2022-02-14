@@ -28,4 +28,7 @@ def dfs_visit_ot(grafo, i, c, ordem):
     ordem.append(i)
 
 grafo1 = Grafo()
+
 grafo1.ler('entradas/teste.txt')
+
+ordenacao = ordenacao_topologica(grafo1)

@@ -32,7 +32,7 @@ class CompFortConexas:
         self.tempo = 0
         self.executar()
         
-
+    # Função DFS Visit, que exectutará em cima da matrizDFS onde estão as informações de auxiliares do algoritmo
     def DFSVisit(self, k):
         self.matrizDFS[k][0] = True
         self.tempo += 1
@@ -55,6 +55,7 @@ class CompFortConexas:
         self.tempo += 1
         self.matrizDFS[k][2] = self.tempo
 
+    # Função de DFSVisit para o DFS alterado, que irá executar em cima da matrizDFS alterada.
     def DFSVisitAlt(self, k):
         self.matrizDFSAlt[k][0] = True
         self.tempo += 1
@@ -64,21 +65,22 @@ class CompFortConexas:
 
         # Descobrir os arcos que saem de k para outros vértices // Respeitar o fato do grafo ser dirigido
         for j in range(len(self.grafoTransp.arestas)):
-            if self.grafo.arestas[j].vertices[0] == k+1:
-                vizinhos.append(self.grafo.arestas[j].vertices[1])
+            if self.grafoTransp.arestas[j].vertices[0] == k+1:
+                vizinhos.append(self.grafoTransp.arestas[j].vertices[1])
 
         for m in range(len(vizinhos)):
             viz = vizinhos[m]
             
             if self.matrizDFSAlt[viz-1][0] == False:
                 self.matrizDFSAlt[viz-1][3] = self.matrizDFSAlt[k][4]
-                self.DFSVisit(viz-1)
+                self.DFSVisitAlt(viz-1)
 
         self.tempo += 1
         self.matrizDFSAlt[k][2] = self.tempo
 
-
+    # Função DFS que executará com DFSVisit
     def DFS(self):
+        # Instanciação da nossa matriz auxiliar: Cv, Tv, Fv, Av e mais um novo elemento identidade, identificando o vértice associado a linha da matriz auxiliar
         self.matrizDFS = [[False, float('inf'), float('inf'), None, self.grafo.vertices[i].rotulo] for i in range(self.grafo.qtdVertices())]
 
         self.tempo = 0
@@ -87,7 +89,9 @@ class CompFortConexas:
             if self.matrizDFS[k][0] == False:
                 self.DFSVisit(k)
 
-    def DFSAlterado(self):        
+    # Função DFS Alterado que executa em cima da lista de vértices em ordem decrescente de Fv
+    def DFSAlterado(self):
+        # Restauração dos valores iniciais da matriz auxiliar, gerando a matrizDFSAlt inicial (cópia de MatrizDFS depois de executar quicksort e reverse em cima de Fv)
         for i in range(self.grafo.qtdVertices()):
             # matrizDFS[i] = Cv, Tv, Fv, Av
             self.matrizDFSAlt[i][0] = False 
@@ -100,7 +104,7 @@ class CompFortConexas:
         # Esse for não vai funcionar, é necessário ordenar a matriz por valor de Fv descendente e realizar o for
         for k in range(self.grafoTransp.qtdVertices()):
             if self.matrizDFSAlt[k][0] == False:    
-                self.DFSVisit(k)
+                self.DFSVisitAlt(k)
 
     def executar(self):
         self.DFS()
@@ -112,17 +116,21 @@ class CompFortConexas:
         for aresta in self.grafo.arestas:
             arestasTransp.append(Aresta([aresta.vertices[1], aresta.vertices[0]], aresta.peso))
 
+        # Criação do Grafo Transposto, girando as arestas
         self.grafoTransp = Grafo()
         self.grafoTransp.arestas = arestasTransp
         self.grafoTransp.vertices = self.grafo.vertices
 
+        # Cópia de matrizDFS para matrizDFSAlt
         self.matrizDFSAlt = self.matrizDFS
         
+        #Realização de quicksort pelo Fv e depois reverso, para ordem decresente
         quicksortMatriz(self.matrizDFSAlt, 0, len(self.matrizDFSAlt) - 1)
         self.matrizDFSAlt.reverse()
 
+        # Execução de DFS Alterado utilizando DFSVisitAlt e a matriz matrizDFSAlt
         self.DFSAlterado()
 
         print(self.matrizDFSAlt)
 
-        #print(self.matrizDFSAlt)
+        

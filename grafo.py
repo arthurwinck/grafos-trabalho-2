@@ -81,8 +81,13 @@ class Grafo:
                     flag_matriz = False
 
                 lista_linha = linha.split(' ')
+
+                if lista_linha[2].endswith('\n'):
+                    lista_linha[2] = lista_linha[2][:-1]
+
+
                 indice1, indice2 = int(lista_linha[0]), int(lista_linha[1])
-                aresta = Aresta([int(indice1), int(indice2)], lista_linha[2])
+                aresta = Aresta([int(indice1), int(indice2)], int(lista_linha[2]))
 
                 self.pair_to_aresta[(indice1, indice2)] = aresta
 
