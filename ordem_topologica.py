@@ -1,31 +1,34 @@
 from grafo import Grafo, Vertice
 
 def ordenacao_topologica(grafo):
-    qtdVertices = grafo.qtdVertices()
-    c = [False] * (qtdVertices + 1)
     ordem = []
-    # tempo = 0
+    c = [False] * (grafo.qtdVertices()+1)
 
-    for i in grafo.vertices:
-        if (c[i] == False):
-            dfs_visit_ot(grafo, i, c, ordem)
+    for i in range(grafo.qtdVertices()+1):
+        if c[i] == False:
+            dfs_visit_ot(grafo,i,c,ordem)
+    
+    new_ordem = []
+    ordem.pop()
+    ordem = [int(x-1) for x in ordem]
 
-    for j, i in enumerate(ordem):
-        print(grafo.rotulo(i), end='')
-        if j < len(ordem) - 1:
-            print(' > ', end='')
-    print()
+    for k in ordem:
+        new_ordem.append(grafo.rotulo(k))
+    
+    for x in range(len(new_ordem)):
+        new_ordem[x] = (' '.join(new_ordem[x]))
+    
+    print(" -> ".join(new_ordem))
 
-
-def dfs_visit_ot(grafo, i, c, ordem):
+def dfs_visit_ot(grafo,i,c,ordem):
     c[i] = True
-    # tempo = tempo + 1
-    vizinhos = grafo.vizinhos(i)
-    for j in vizinhos(i):
-        if (c[i] == False):
-            dfs_visit_ot(grafo, i, c, ordem)
-
-    ordem.append(i)
+    vizinhos = grafo.vizinhos(i+1)
+    for j in vizinhos:
+        if c[j] == False:
+            c, ordem = dfs_visit_ot(grafo,j,c,ordem)
+    
+    ordem.insert(0,i)
+    return (c,ordem)
 
 grafo1 = Grafo()
 
