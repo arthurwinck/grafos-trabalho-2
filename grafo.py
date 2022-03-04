@@ -63,12 +63,17 @@ class Grafo:
 
             elif flag_vertices:
                 lista_linha = linha.split(' ')
-
+                
+                for k in range(2, len(lista_linha)):
+                    lista_linha[1] += " " + lista_linha[k]
+                
                 if lista_linha[1].endswith('\n'):
                     lista_linha[1] = lista_linha[1][:-1]
 
+                #print(lista_linha[1])
                 indice, rotulo = lista_linha[0], lista_linha[1]
 
+                #print(rotulo)
                 vertice = Vertice(indice, rotulo)
                 self.indice_to_vertice[int(indice)] = vertice
                 self.adicionarVertice(vertice)
@@ -156,3 +161,7 @@ class Aresta:
         #o atributo vértices de arestas é uma tupla de vértices (rótulo)
         self.vertices = vertices
         self.peso = int(peso)
+
+
+g1 = Grafo()
+g1.ler("entradas/topological.net")

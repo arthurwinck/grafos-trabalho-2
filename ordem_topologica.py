@@ -6,33 +6,39 @@ def ordenacao_topologica(grafo):
 
     for i in range(grafo.qtdVertices()):
         if c[i] == False:
-            dfs_visit_ot(grafo,i,c,ordem)
+            c, ordem = dfs_visit_ot(grafo,i,c,ordem)
     
     new_ordem = []
-    ordem.pop()
-    ordem = [int(x-1) for x in ordem]
+    ordem = [int(x) for x in ordem]
 
     for k in ordem:
-        vertice = grafo.vertices[k]
+        vertice = grafo.vertices[k-1]
         new_ordem.append(grafo.rotulo(vertice))
+
     
-    for x in range(len(new_ordem)):
-        new_ordem[x] = (' '.join(new_ordem[x]))
-    
-    print(" -> ".join(new_ordem))
+    for i in range(len(new_ordem)-1):
+        new_ordem[i] = new_ordem[i] + " -> "
+
+    print(''.join(new_ordem))
 
 def dfs_visit_ot(grafo,i,c,ordem):
     c[i] = True
+    lista_vizinhos = []       
     vizinhos = grafo.vizinhos(i+1)
-    for j in vizinhos:
-        if c[j-1] == False:
-            c, ordem = dfs_visit_ot(grafo,j-1,c,ordem)
-    
-    ordem.insert(0,i)
+
+    for l in range(len(grafo.arestas)):
+        if grafo.arestas[l].vertices[0] == i+1:
+            lista_vizinhos.append(grafo.arestas[l].vertices[1] - 1)
+
+    for j in lista_vizinhos:
+        if c[j] == False:
+            c, ordem = dfs_visit_ot(grafo,j,c,ordem)
+            
+    ordem.insert(0,i+1)
     return (c,ordem)
 
 grafo1 = Grafo()
 
-grafo1.ler('entradas/teste.txt')
+grafo1.ler('entradas/topological.net')
 
 ordenacao = ordenacao_topologica(grafo1)

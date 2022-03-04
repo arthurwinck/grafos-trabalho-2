@@ -1,0 +1,13 @@
+*vertices 5
+1 "Levantar "
+2 "Calçar pantufas "
+3 "Preparar o café "
+4 "Escovar os dentes "
+5 "Tomar o café "
+*edges
+1 2 1
+1 3 1
+1 4 1
+2 3 1
+2 4 1
+3 5 1
