@@ -20,8 +20,6 @@ def kruskal(grafo):
         S[v.index] = {v}
 
     E = grafo.arestas
-    print_vector(E)
-    print('')
     sorted_E = []
     K = {}
     for i in range(grafo.qtdArestas()):
@@ -29,7 +27,6 @@ def kruskal(grafo):
     K_sorted = sorted(K.items(), key=lambda item: item[1])
     for k in K_sorted:
         sorted_E.append(k[0])
-    print_vector(sorted_E)
 
     for aresta in sorted_E:
         u, v = aresta.vertices
